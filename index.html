@@ -42,12 +42,13 @@
     <section class="row log">
         <div class="small-12 columns">
             <ul>
-                <li>
-
+                <li v-for="event in events">
+                  {{ event }}
                 </li>
             </ul>
         </div>
     </section>
 </div>
+<script src="./js/app.js"></script>
 </body>
 </html>
