@@ -16,7 +16,6 @@ new Vue({
       if(this.checkHealth()) {
          return;
       }
-
       this.monsterTurn();
     },
     specialAttack: function() {
@@ -24,13 +23,18 @@ new Vue({
       if(this.checkHealth()) {
          return;
       }
-
       this.monsterTurn();
     },
     heal: function() {
-
+      if(this.playerHealth <= 90) {
+        this.playerHealth += 10;
+      } else {
+          this.playerHealth = 100;
+      }
+      this.monsterTurn();
     },
     giveUp: function() {
+      this.gameState = false;
       this.reset();
     },
     monsterTurn: function() {
