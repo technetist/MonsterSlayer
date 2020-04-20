@@ -12,14 +12,18 @@ new Vue({
       this.reset();
     },
     attack: function() {
-      this.monsterHealth -= this.calcDamage(3,10);
+      let damage = this.calcDamage(3,10);
+      this.monsterHealth -= damage;
+      this.events.unshift({isPlayer: true, message:"Player attacks Monster for " + damage});
       if(this.checkHealth()) {
          return;
       }
       this.monsterTurn();
     },
     specialAttack: function() {
-      this.monsterHealth -= this.calcDamage(10,20);
+      let damage = this.calcDamage(10,20);
+      this.monsterHealth -= damage;
+      this.events.unshift({isPlayer: true, message:"Player attacks Monster for " + damage});
       if(this.checkHealth()) {
          return;
       }
@@ -31,6 +35,7 @@ new Vue({
       } else {
           this.playerHealth = 100;
       }
+      this.events.unshift({isPlayer: true, message:"Player used a health potion for 10 health"});
       this.monsterTurn();
     },
     giveUp: function() {
@@ -38,7 +43,9 @@ new Vue({
       this.reset();
     },
     monsterTurn: function() {
-      this.playerHealth -= this.calcDamage(5,12);
+      let damage = this.calcDamage(5,12);
+      this.playerHealth -= damage;
+      this.events.unshift({isPlayer: false, message:"Monster attacks Player for " + damage});
       this.checkHealth();
     },
     calcDamage: function(min, max) {
@@ -47,12 +54,12 @@ new Vue({
     checkHealth: function() {
       if(this.monsterHealth < 1) {
         this.monsterHealth = 0;
-        this.events.push("Player wins!");
+        this.events.unshift({isPlayer: true, message:"Player wins!"});
         this.gameState = false;
         return true;
       } else if (this.playerHealth < 1) {
         this.playerHealth = 0;
-        this.events.push("Monster wins...");
+        this.events.unshift({isPlayer: true, message:"Monster wins..."});
         this.gameState = false;
         return true;
       }
